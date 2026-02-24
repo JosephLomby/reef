@@ -23,30 +23,31 @@ const LoginScreen = () => {
     setError("")
 
     // Step 2: real OAuth
-const res = await fetch(`${form.baseUrl}/oauth/token`, {
-  method: "POST",
-  headers: {
-    "X-Api-Key": form.apiKey,
-    "X-API-Version": "1.0.0",
-    "Content-Type": "application/x-www-form-urlencoded",
-  },
-  body: new URLSearchParams({
-    grant_type: "client_credentials",
-    client_id: form.clientId,
-    client_secret: form.clientSecret,
-  }),
-})
+    const res = await fetch(`${form.baseUrl}/oauth/token`, {
+      method: "POST",
+      headers: {
+        "X-Api-Key": form.apiKey,
+        "X-API-Version": "1.0.0",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        grant_type: "client_credentials",
+        client_id: form.clientId,
+        client_secret: form.clientSecret,
+      }),
+    })
 
-if (!res.ok) {
-  const errText = await res.text()
-  setError(`Authentication failed: ${res.status} — ${errText}`)
-  setLoading(false)
-  return
-}
+    if (!res.ok) {
+      const errText = await res.text()
+      setError(`Authentication failed: ${res.status} — ${errText}`)
+      setLoading(false)
+      return
+    }
 
-const data = await res.json()
-login(form, { name: "Joe Martinez", email: "joe@ottimate.com" })
-setLoading(false)
+    const data = await res.json()
+    login(form, { name: "Joe Martinez", email: "joe@ottimate.com" })
+    setLoading(false)
+  }
 
   return (
     <div style={{
@@ -66,7 +67,7 @@ setLoading(false)
             boxShadow: "0 8px 24px rgba(45,122,79,0.25)",
           }}>R</div>
           <h1 style={{ margin: 0, fontSize: 28, fontWeight: 800, color: "#111827", letterSpacing: "-0.5px" }}>Reef</h1>
-          <p style={{ margin: "4px 0 0", fontSize: 14, color: "#6B7280" }}>A Marketplace for Ottimate</p>
+          <p style={{ margin: "4px 0 0", fontSize: 14, color: "#6B7280" }}>by Ottimate</p>
         </div>
 
         {/* Card */}
@@ -82,11 +83,11 @@ setLoading(false)
           </p>
 
           {[
-            { key: "baseUrl",       label: "API Base URL",     type: "url",      placeholder: "https://api.ottimate.com/v1" },
-            { key: "apiKey",        label: "API Key",          type: "password", placeholder: "your-api-key" },
-            { key: "clientId",      label: "Client ID",        type: "text",     placeholder: "client_id" },
-            { key: "clientSecret",  label: "Client Secret",    type: "password", placeholder: "client_secret" },
-            { key: "accountId",     label: "Account ID",       type: "text",     placeholder: "racc_..." },
+            { key: "baseUrl",      label: "API Base URL",   type: "url",      placeholder: "https://api.ottimate.com/v1" },
+            { key: "apiKey",       label: "API Key",        type: "password", placeholder: "your-api-key" },
+            { key: "clientId",     label: "Client ID",      type: "text",     placeholder: "client_id" },
+            { key: "clientSecret", label: "Client Secret",  type: "password", placeholder: "client_secret" },
+            { key: "accountId",    label: "Account ID",     type: "text",     placeholder: "racc_..." },
           ].map(({ key, label, type, placeholder }) => (
             <div key={key} style={{ marginBottom: 16 }}>
               <label style={{
@@ -140,7 +141,7 @@ setLoading(false)
         </div>
 
         <p style={{ textAlign: "center", marginTop: 24, fontSize: 12, color: "#9CA3AF" }}>
-          Reef A Marketplace for Ottimate · Solutions Engineering
+          Reef by Ottimate · Solutions Engineering
         </p>
       </div>
     </div>
