@@ -5,7 +5,7 @@ import { REEF_GREEN, FONT } from "../config/apps"
 const LoginScreen = () => {
   const { login } = usePlatform()
   const [form, setForm] = useState({
-    baseUrl: "https://api.ottimate.com/v1",
+    baseUrl: "https://sandbox-api.ottimate.com/v1",
     apiKey: "",
     clientId: "",
     clientSecret: "",
@@ -29,11 +29,13 @@ const LoginScreen = () => {
         "X-Api-Key": form.apiKey,
         "X-API-Version": "1.0.0",
         "Content-Type": "application/x-www-form-urlencoded",
+        "Accept": "application/json",
       },
       body: new URLSearchParams({
         grant_type: "client_credentials",
         client_id: form.clientId,
         client_secret: form.clientSecret,
+        scope: "accounts.can_access_dashboard",
       }),
     })
 
@@ -67,7 +69,7 @@ const LoginScreen = () => {
             boxShadow: "0 8px 24px rgba(45,122,79,0.25)",
           }}>R</div>
           <h1 style={{ margin: 0, fontSize: 28, fontWeight: 800, color: "#111827", letterSpacing: "-0.5px" }}>Reef</h1>
-          <p style={{ margin: "4px 0 0", fontSize: 14, color: "#6B7280" }}>by Ottimate</p>
+          <p style={{ margin: "4px 0 0", fontSize: 14, color: "#6B7280" }}>A Marketplace for Ottimate</p>
         </div>
 
         {/* Card */}
@@ -141,7 +143,7 @@ const LoginScreen = () => {
         </div>
 
         <p style={{ textAlign: "center", marginTop: 24, fontSize: 12, color: "#9CA3AF" }}>
-          Reef by Ottimate · Solutions Engineering
+        Reef · A Marketplace for Ottimate · Built by Solutions Engineering
         </p>
       </div>
     </div>
