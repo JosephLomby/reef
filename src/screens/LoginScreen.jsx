@@ -120,7 +120,7 @@ const LoginScreen = () => {
         </div>
 
         <p style={{ textAlign: "center", marginTop: 24, fontSize: 12, color: "#9CA3AF" }}>
-          Reef by Ottimate · Solutions Engineering
+          Reef A Marketplace for Ottimate · Solutions Engineering
         </p>
       </div>
     </div>
