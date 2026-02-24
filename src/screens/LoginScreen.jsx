@@ -22,11 +22,31 @@ const LoginScreen = () => {
     setLoading(true)
     setError("")
 
-    // Step 1: mock login — real OAuth wired in Step 2
-    await new Promise(r => setTimeout(r, 800))
-    login(form, { name: "Joe Martinez", email: "joe@ottimate.com" })
-    setLoading(false)
-  }
+    // Step 2: real OAuth
+const res = await fetch(`${form.baseUrl}/oauth/token`, {
+  method: "POST",
+  headers: {
+    "X-Api-Key": form.apiKey,
+    "X-API-Version": "1.0.0",
+    "Content-Type": "application/x-www-form-urlencoded",
+  },
+  body: new URLSearchParams({
+    grant_type: "client_credentials",
+    client_id: form.clientId,
+    client_secret: form.clientSecret,
+  }),
+})
+
+if (!res.ok) {
+  const errText = await res.text()
+  setError(`Authentication failed: ${res.status} — ${errText}`)
+  setLoading(false)
+  return
+}
+
+const data = await res.json()
+login(form, { name: "Joe Martinez", email: "joe@ottimate.com" })
+setLoading(false)
 
   return (
     <div style={{
