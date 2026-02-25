@@ -5,6 +5,7 @@ import LoginScreen from "./screens/LoginScreen"
 import ContextScreen from "./screens/ContextScreen"
 import AppCatalog from "./screens/AppCatalog"
 import { FONT } from "./styles/index"
+import CheckRequestApp from "./apps/CheckRequests/index"
 
 // ─── App Module Placeholder (replaced in Steps 6 & 7) ────────────────────────
 const AppModulePlaceholder = ({ app, onBack }) => (
@@ -74,7 +75,8 @@ const ReefRouter = () => {
       {view === "login"   && <LoginScreen />}
       {view === "context" && <ContextScreen />}
       {view === "catalog" && <AppCatalog onLaunchApp={app => setActiveApp(app)} />}
-      {view === "app"     && <AppModulePlaceholder app={activeApp} onBack={() => setActiveApp(null)} />}
+      {view === "app" && activeApp?.id === "check-requests" && <CheckRequestApp />}
+{view === "app" && activeApp?.id !== "check-requests" && <AppModulePlaceholder app={activeApp} onBack={() => setActiveApp(null)} />}
     </>
   )
 }
