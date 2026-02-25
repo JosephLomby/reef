@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { usePlatform } from "../context/PlatformContext"
-import { APP_CATALOG, REEF_GREEN, FONT } from "../styles/index"
+import { APP_CATALOG } from "../config/apps"
+import { REEF_GREEN, FONT } from "../styles/index"
 
 const AppCard = ({ app, onLaunch }) => {
   const isLive = app.status === "live"
