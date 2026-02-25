@@ -1,4 +1,4 @@
-import { inputSm, selectSm } from "../../../styles"
+import { inputSm, selectSm } from "../../../styles/index"
 
 const LineItemRow = ({ item, index, onChange, onRemove, dimensionTypes, canRemove }) => {
   const update = (field, value) => onChange(index, { ...item, [field]: value })
