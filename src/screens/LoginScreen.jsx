@@ -47,9 +47,10 @@ const LoginScreen = () => {
     }
 
     const data = await res.json()
-    login(form, { name: "Joe Martinez", email: "joe@ottimate.com" })
-    setLoading(false)
-  }
+login(
+  { ...form, accessToken: data.access_token },
+  { name: "Joe Lombardi", email: "joseph.lombardi@ottimate.com" }
+)
 
   return (
     <div style={{

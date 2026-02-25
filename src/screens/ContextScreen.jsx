@@ -2,37 +2,77 @@ import { useState, useEffect } from "react"
 import { usePlatform } from "../context/PlatformContext"
 import { REEF_GREEN, FONT } from "../config/apps"
 
-// Step 1: mock data — replaced with live API calls in Step 3
-const MOCK_COMPANIES = [
-  { id: "1", name: "Sunrise Senior Living" },
-  { id: "2", name: "Pacific Hospitality Group" },
-  { id: "3", name: "Coastal Grocery Partners" },
-]
-const MOCK_LOCATIONS = {
-  "1": [{ id: "101", name: "Sunrise — San Diego" }, { id: "102", name: "Sunrise — Los Angeles" }],
-  "2": [{ id: "201", name: "Hotel Del Mar" }, { id: "202", name: "Oceanview Suites" }],
-  "3": [{ id: "301", name: "Coastal Market — Encinitas" }, { id: "302", name: "Coastal Market — Carlsbad" }],
-}
-
 const ContextScreen = () => {
-  const { user, setContext } = usePlatform()
-  const [companies] = useState(MOCK_COMPANIES)
+  const { user, config, setContext } = usePlatform()
+  const [companies, setCompanies] = useState([])
   const [locations, setLocations] = useState([])
   const [selectedCompany, setSelectedCompany] = useState("")
   const [selectedLocation, setSelectedLocation] = useState("")
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
 
+  // Load companies on mount
   useEffect(() => {
-    if (selectedCompany) {
-      setLocations(MOCK_LOCATIONS[selectedCompany] || [])
-      setSelectedLocation("")
+    const fetchCompanies = async () => {
+      setLoading(true)
+      setError("")
+      try {
+        const res = await fetch(
+          `${config.baseUrl}/accounts/${config.accountId}/companies?limit=100`,
+          {
+            headers: {
+              "X-Api-Key": config.apiKey,
+              "X-API-Version": "1.0.0",
+              "Authorization": `Bearer ${config.accessToken}`,
+              "Accept": "application/json",
+            }
+          }
+        )
+        if (!res.ok) throw new Error(`Failed to load companies: ${res.status}`)
+        const data = await res.json()
+        setCompanies(data.results || [])
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
     }
-  }, [selectedCompany])
+    if (config?.accessToken) fetchCompanies()
+  }, [config])
+
+  // Load locations when company changes
+  useEffect(() => {
+    if (!selectedCompany) return
+    const fetchLocations = async () => {
+      setError("")
+      try {
+        const res = await fetch(
+          `${config.baseUrl}/accounts/${config.accountId}/locations?ottimate_company_id=${selectedCompany}&limit=100`,
+          {
+            headers: {
+              "X-Api-Key": config.apiKey,
+              "X-API-Version": "1.0.0",
+              "Authorization": `Bearer ${config.accessToken}`,
+              "Accept": "application/json",
+            }
+          }
+        )
+        if (!res.ok) throw new Error(`Failed to load locations: ${res.status}`)
+        const data = await res.json()
+        setLocations(data.results || [])
+        setSelectedLocation("")
+      } catch (err) {
+        setError(err.message)
+      }
+    }
+    fetchLocations()
+  }, [selectedCompany, config])
 
   const canContinue = selectedCompany && selectedLocation
 
   const handleContinue = () => {
-    const company = companies.find(c => c.id === selectedCompany)
-    const location = locations.find(l => l.id === selectedLocation)
+    const company = companies.find(c => String(c.id) === selectedCompany)
+    const location = locations.find(l => String(l.id) === selectedLocation)
     setContext(company, location)
   }
 
@@ -66,78 +106,100 @@ const ContextScreen = () => {
           boxShadow: "0 4px 24px rgba(0,0,0,0.06)", padding: 32,
         }}>
 
-          {/* Company */}
-          <div style={{ marginBottom: 20 }}>
-            <label style={{
-              display: "block", fontSize: 11, fontWeight: 700,
-              color: "#6B7280", letterSpacing: "0.8px",
-              textTransform: "uppercase", marginBottom: 8,
-            }}>
-              Company
-            </label>
-            <select
-              value={selectedCompany}
-              onChange={e => setSelectedCompany(e.target.value)}
-              style={{
-                width: "100%", padding: "10px 14px", borderRadius: 10,
-                border: "1px solid #E5E7EB", background: "#F9FAFB",
-                fontSize: 14, color: selectedCompany ? "#111827" : "#9CA3AF",
-                fontFamily: FONT, outline: "none", cursor: "pointer",
-              }}
-            >
-              <option value="">Select a company…</option>
-              {companies.map(c => (
-                <option key={c.id} value={c.id}>{c.name}</option>
-              ))}
-            </select>
-          </div>
+          {/* Loading state */}
+          {loading && (
+            <div style={{ textAlign: "center", padding: "24px 0", color: "#6B7280", fontSize: 14 }}>
+              Loading your companies…
+            </div>
+          )}
 
-          {/* Location */}
-          <div style={{ marginBottom: 28 }}>
-            <label style={{
-              display: "block", fontSize: 11, fontWeight: 700,
-              color: "#6B7280", letterSpacing: "0.8px",
-              textTransform: "uppercase", marginBottom: 8,
+          {/* Error state */}
+          {error && (
+            <div style={{
+              background: "#FEF2F2", border: "1px solid #FECACA",
+              borderRadius: 8, padding: "10px 14px",
+              marginBottom: 16, fontSize: 13, color: "#DC2626",
             }}>
-              Location
-            </label>
-            <select
-              value={selectedLocation}
-              onChange={e => setSelectedLocation(e.target.value)}
-              disabled={!selectedCompany}
-              style={{
-                width: "100%", padding: "10px 14px", borderRadius: 10,
-                border: "1px solid #E5E7EB",
-                background: selectedCompany ? "#F9FAFB" : "#F3F4F6",
-                fontSize: 14, color: selectedLocation ? "#111827" : "#9CA3AF",
-                fontFamily: FONT, outline: "none",
-                cursor: selectedCompany ? "pointer" : "not-allowed",
-                opacity: selectedCompany ? 1 : 0.6,
-              }}
-            >
-              <option value="">
-                {selectedCompany ? "Select a location…" : "Select a company first"}
-              </option>
-              {locations.map(l => (
-                <option key={l.id} value={l.id}>{l.name}</option>
-              ))}
-            </select>
-          </div>
+              {error}
+            </div>
+          )}
 
-          <button
-            onClick={handleContinue}
-            disabled={!canContinue}
-            style={{
-              width: "100%", padding: "12px 0", borderRadius: 10,
-              background: canContinue ? REEF_GREEN : "#E5E7EB",
-              color: canContinue ? "#fff" : "#9CA3AF",
-              fontFamily: FONT, fontSize: 14, fontWeight: 700,
-              border: "none", cursor: canContinue ? "pointer" : "not-allowed",
-              transition: "all 0.15s",
-            }}
-          >
-            Enter Reef →
-          </button>
+          {!loading && (
+            <>
+              {/* Company */}
+              <div style={{ marginBottom: 20 }}>
+                <label style={{
+                  display: "block", fontSize: 11, fontWeight: 700,
+                  color: "#6B7280", letterSpacing: "0.8px",
+                  textTransform: "uppercase", marginBottom: 8,
+                }}>
+                  Company
+                </label>
+                <select
+                  value={selectedCompany}
+                  onChange={e => setSelectedCompany(e.target.value)}
+                  style={{
+                    width: "100%", padding: "10px 14px", borderRadius: 10,
+                    border: "1px solid #E5E7EB", background: "#F9FAFB",
+                    fontSize: 14, color: selectedCompany ? "#111827" : "#9CA3AF",
+                    fontFamily: FONT, outline: "none", cursor: "pointer",
+                  }}
+                >
+                  <option value="">Select a company…</option>
+                  {companies.map(c => (
+                    <option key={c.id} value={String(c.id)}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Location */}
+              <div style={{ marginBottom: 28 }}>
+                <label style={{
+                  display: "block", fontSize: 11, fontWeight: 700,
+                  color: "#6B7280", letterSpacing: "0.8px",
+                  textTransform: "uppercase", marginBottom: 8,
+                }}>
+                  Location
+                </label>
+                <select
+                  value={selectedLocation}
+                  onChange={e => setSelectedLocation(e.target.value)}
+                  disabled={!selectedCompany}
+                  style={{
+                    width: "100%", padding: "10px 14px", borderRadius: 10,
+                    border: "1px solid #E5E7EB",
+                    background: selectedCompany ? "#F9FAFB" : "#F3F4F6",
+                    fontSize: 14, color: selectedLocation ? "#111827" : "#9CA3AF",
+                    fontFamily: FONT, outline: "none",
+                    cursor: selectedCompany ? "pointer" : "not-allowed",
+                    opacity: selectedCompany ? 1 : 0.6,
+                  }}
+                >
+                  <option value="">
+                    {selectedCompany ? "Select a location…" : "Select a company first"}
+                  </option>
+                  {locations.map(l => (
+                    <option key={l.id} value={String(l.id)}>{l.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                onClick={handleContinue}
+                disabled={!canContinue}
+                style={{
+                  width: "100%", padding: "12px 0", borderRadius: 10,
+                  background: canContinue ? REEF_GREEN : "#E5E7EB",
+                  color: canContinue ? "#fff" : "#9CA3AF",
+                  fontFamily: FONT, fontSize: 14, fontWeight: 700,
+                  border: "none", cursor: canContinue ? "pointer" : "not-allowed",
+                  transition: "all 0.15s",
+                }}
+              >
+                Enter Reef →
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>
