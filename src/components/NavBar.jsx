@@ -266,10 +266,3 @@ const NavBar = ({ onHome }) => {
 }
 
 export default NavBar
-```
-
-Save it, then:
-```
-git add .
-git commit -m "Nav bar context switcher — switch company and location without logging out"
-git push
