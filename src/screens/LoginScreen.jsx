@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { usePlatform } from "../context/PlatformContext"
-import { REEF_GREEN, FONT } from "../config/apps"
+import { REEF_GREEN, FONT } from "../styles"
 
 const LoginScreen = () => {
   const { login } = usePlatform()
@@ -146,7 +146,7 @@ const LoginScreen = () => {
 
         <p style={{ textAlign: "center", marginTop: 24, fontSize: 12, color: "#9CA3AF" }}>
           Reef · A Marketplace for Ottimate · Solutions Engineering
-        </p>
+        </p>  
       </div>
     </div>
   )

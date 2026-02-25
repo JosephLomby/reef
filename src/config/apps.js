@@ -24,6 +24,3 @@ export const APP_CATALOG = [
       status: "coming-soon",
     },
   ]
-  
-  export const REEF_GREEN = "#2D7A4F"
-  export const FONT = "'Hanken Grotesk', 'DM Sans', sans-serif"
