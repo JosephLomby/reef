@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { usePlatform } from "../context/PlatformContext"
-import { REEF_GREEN, FONT } from "../styles"
+import { REEF_GREEN, FONT } from "../styles/index"
 
 const LoginScreen = () => {
   const { login } = usePlatform()

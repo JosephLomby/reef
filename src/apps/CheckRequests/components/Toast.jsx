@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { toastColors } from "../../../styles"
+import { toastColors } from "../../../styles/index"
 
 const Toast = ({ message, type, onDismiss }) => {
   useEffect(() => {

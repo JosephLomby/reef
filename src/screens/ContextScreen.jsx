@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { usePlatform } from "../context/PlatformContext"
-import { REEF_GREEN, FONT } from "../config/apps"
+import { REEF_GREEN, FONT } from "../styles/index"
 
 const ContextScreen = () => {
   const { user, config, setContext } = usePlatform()

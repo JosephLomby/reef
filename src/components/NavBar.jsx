@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { usePlatform } from "../context/PlatformContext"
-import { REEF_GREEN, FONT } from "../styles"
+import { REEF_GREEN, FONT } from "../styles/index"
 
 const NavBar = ({ onHome }) => {
   const { user, config, company, location, setContext, logout } = usePlatform()

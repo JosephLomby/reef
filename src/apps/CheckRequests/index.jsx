@@ -9,7 +9,7 @@ import {
   input, select, textarea, label,
   btnPrimary, btnGhost, btnSmDark, btnDanger, btnToggleActive, btnToggleInactive,
   infoBox, pageWrapper, pageInner, pageTitle, pageSubtitle
-} from "../../styles"
+} from "../../styles/index"
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 function formatDimLabel(typeKey) {
