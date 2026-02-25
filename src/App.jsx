@@ -4,7 +4,7 @@ import NavBar from "./components/NavBar"
 import LoginScreen from "./screens/LoginScreen"
 import ContextScreen from "./screens/ContextScreen"
 import AppCatalog from "./screens/AppCatalog"
-import { FONT } from "./config/apps"
+import { FONT } from "./styles/index"
 
 // ─── App Module Placeholder (replaced in Steps 6 & 7) ────────────────────────
 const AppModulePlaceholder = ({ app, onBack }) => (
