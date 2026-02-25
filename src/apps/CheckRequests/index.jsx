@@ -147,7 +147,7 @@ export default function CheckRequestApp() {
       }, dimensionTypes)
 
       const formData = new FormData()
-      formData.append("file", blob, `${crNumber}.html`)
+formData.append("file", blob, `${crNumber}.pdf`)
       formData.append("ottimate_location_id", String(location.id))
 
       const uploadRes = await api.uploadInvoice(formData)
