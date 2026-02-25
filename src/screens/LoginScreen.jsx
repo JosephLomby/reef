@@ -70,7 +70,7 @@ const LoginScreen = () => {
             margin: "0 auto 16px",
             boxShadow: "0 8px 24px rgba(45,122,79,0.25)",
           }}>R</div>
-          <h1 style={{ margin: 0, fontSize: 28, fontWeight: 800, color: "#111827", letterSpacing: "-0.5px" }}>Reef</h1>
+          <h1 style={{ margin: 0, fontSize: 28, fontWeight: 800, color: "#111827", letterSpacing: "-0.5px" }}>The Reef</h1>
           <p style={{ margin: "4px 0 0", fontSize: 14, color: "#6B7280" }}>A Marketplace for Ottimate</p>
         </div>
 

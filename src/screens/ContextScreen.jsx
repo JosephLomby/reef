@@ -196,7 +196,7 @@ const ContextScreen = () => {
                   transition: "all 0.15s",
                 }}
               >
-                Enter Reef →
+                Enter The Reef →
               </button>
             </>
           )}
