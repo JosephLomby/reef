@@ -22,7 +22,6 @@ const LoginScreen = () => {
     setLoading(true)
     setError("")
 
-    // Step 2: real OAuth
     const res = await fetch(`${form.baseUrl}/oauth/token`, {
       method: "POST",
       headers: {
@@ -47,10 +46,12 @@ const LoginScreen = () => {
     }
 
     const data = await res.json()
-login(
-  { ...form, accessToken: data.access_token },
-  { name: "Joe Lombardi", email: "joseph.lombardi@ottimate.com" }
-)
+    login(
+      { ...form, accessToken: data.access_token },
+      { name: "Joe Martinez", email: "joe@ottimate.com" }
+    )
+    setLoading(false)
+  }
 
   return (
     <div style={{
@@ -86,7 +87,7 @@ login(
           </p>
 
           {[
-            { key: "baseUrl",      label: "API Base URL",   type: "url",      placeholder: "https://api.ottimate.com/v1" },
+            { key: "baseUrl",      label: "API Base URL",   type: "url",      placeholder: "https://sandbox-api.ottimate.com/v1" },
             { key: "apiKey",       label: "API Key",        type: "password", placeholder: "your-api-key" },
             { key: "clientId",     label: "Client ID",      type: "text",     placeholder: "client_id" },
             { key: "clientSecret", label: "Client Secret",  type: "password", placeholder: "client_secret" },
@@ -144,7 +145,7 @@ login(
         </div>
 
         <p style={{ textAlign: "center", marginTop: 24, fontSize: 12, color: "#9CA3AF" }}>
-        Reef · A Marketplace for Ottimate · Built by Solutions Engineering
+          Reef · A Marketplace for Ottimate · Solutions Engineering
         </p>
       </div>
     </div>
