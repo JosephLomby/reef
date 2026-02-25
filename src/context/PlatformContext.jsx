@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useState, useMemo } from "react"
+import { createApiClient } from "../services/api"
 
 const PlatformContext = createContext(null)
 
@@ -27,9 +28,15 @@ export const PlatformProvider = ({ children }) => {
     setLocation(loc)
   }
 
+  // API client is memoized — only recreated when config changes
+  const api = useMemo(() => {
+    if (!config?.accessToken) return null
+    return createApiClient(config)
+  }, [config])
+
   return (
     <PlatformContext.Provider value={{
-      user, config, company, location,
+      user, config, company, location, api,
       login, logout, setContext
     }}>
       {children}
