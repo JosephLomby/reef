@@ -113,7 +113,7 @@ const NavBar = ({ onHome }) => {
           justifyContent: "center", color: "#fff", fontSize: 16, fontWeight: 700,
         }}>R</div>
         <span style={{ fontWeight: 700, fontSize: 17, color: "#111827", letterSpacing: "-0.3px" }}>The Reef</span>
-        <span style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginLeft: 2 }}>by Ottimate</span>
+        <span style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginLeft: 2 }}>for Ottimate</span>
       </button>
 
       {/* Divider */}
