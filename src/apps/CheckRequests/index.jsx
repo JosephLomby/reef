@@ -24,7 +24,7 @@ const S = {
   inner: { maxWidth: 860, margin: "0 auto", padding: "40px 32px 80px" },
   pageTitle: { margin: 0, fontSize: 24, fontWeight: 800, color: "#1C1917", letterSpacing: "-0.4px" },
   pageSubtitle: { margin: "6px 0 0", fontSize: 13, color: "#A8A29E" },
-  card: { background: "#fff", borderRadius: 16, border: "1px solid #E7E5E4", marginBottom: 20, overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" },
+  card: { background: "#fff", borderRadius: 16, border: "1px solid #E7E5E4", marginBottom: 20, boxShadow: "0 1px 4px rgba(0,0,0,0.04)" },
   sectionHead: { padding: "18px 28px", borderBottom: "1px solid #F5F5F4", background: "#FAFAF9", display: "flex", alignItems: "center", justifyContent: "space-between" },
   sectionTitle: { display: "flex", alignItems: "center", gap: 10, fontSize: 11, fontWeight: 700, color: "#78716C", letterSpacing: "1px", textTransform: "uppercase" },
   sectionNum: { width: 22, height: 22, borderRadius: 6, background: "#1C1917", color: "#fff", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" },
