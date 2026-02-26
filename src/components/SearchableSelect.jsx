@@ -31,8 +31,8 @@ const SearchableSelect = ({
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect()
       setDropdownPos({
-        top: rect.bottom + window.scrollY + 4,
-        left: rect.left + window.scrollX,
+        top: rect.bottom + 4,
+        left: rect.left,
         width: rect.width,
       })
     }
