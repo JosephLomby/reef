@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { usePlatform } from "../context/PlatformContext"
 import { REEF_GREEN, FONT } from "../styles/index"
+import SearchableSelect from "./SearchableSelect"
 
 const NavBar = ({ onHome }) => {
   const { user, config, company, location, setContext, logout } = usePlatform()
@@ -155,20 +156,12 @@ const NavBar = ({ onHome }) => {
                 <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: "#6B7280", marginBottom: 6 }}>
                   Company
                 </label>
-                <select
-                  value={selectedCompany}
-                  onChange={handleCompanyChange}
-                  style={{
-                    width: "100%", padding: "8px 12px", borderRadius: 8,
-                    border: "1px solid #E5E7EB", background: "#F9FAFB",
-                    fontSize: 13, color: "#111827", fontFamily: FONT, outline: "none",
-                  }}
-                >
-                  <option value="">Select a company…</option>
-                  {companies.map(c => (
-                    <option key={c.id} value={String(c.id)}>{c.name}</option>
-                  ))}
-                </select>
+                <SearchableSelect
+  options={companies.map(c => ({ value: String(c.id), label: c.name }))}
+  value={selectedCompany}
+  onChange={(val) => handleCompanyChange({ target: { value: val } })}
+  placeholder="Search companies…"
+/>
               </div>
 
               {/* Location */}
@@ -176,27 +169,14 @@ const NavBar = ({ onHome }) => {
                 <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: "#6B7280", marginBottom: 6 }}>
                   Location
                 </label>
-                <select
-                  value={selectedLocation}
-                  onChange={e => setSelectedLocation(e.target.value)}
-                  disabled={!selectedCompany}
-                  style={{
-                    width: "100%", padding: "8px 12px", borderRadius: 8,
-                    border: "1px solid #E5E7EB",
-                    background: selectedCompany ? "#F9FAFB" : "#F3F4F6",
-                    fontSize: 13, color: selectedLocation ? "#111827" : "#9CA3AF",
-                    fontFamily: FONT, outline: "none",
-                    cursor: selectedCompany ? "pointer" : "not-allowed",
-                    opacity: selectedCompany ? 1 : 0.6,
-                  }}
-                >
-                  <option value="">
-                    {selectedCompany ? "Select a location…" : "Select a company first"}
-                  </option>
-                  {locations.map(l => (
-                    <option key={l.id} value={String(l.id)}>{l.name}</option>
-                  ))}
-                </select>
+                <SearchableSelect
+  options={locations.map(l => ({ value: String(l.id), label: l.name }))}
+  value={selectedLocation}
+  onChange={setSelectedLocation}
+  placeholder={selectedCompany ? "Search locations…" : "Select a company first"}
+  disabled={!selectedCompany}
+/>
+
               </div>
 
               <button

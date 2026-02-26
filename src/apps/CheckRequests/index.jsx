@@ -4,9 +4,10 @@ import { generateCheckRequestPDF } from "./utils/pdfGenerator"
 import LineItemRow from "./components/LineItemRow"
 import SubmissionModal from "./components/SubmissionModal"
 import Toast from "./components/Toast"
+import SearchableSelect from "../../components/SearchableSelect"
 import {
   card, sectionHeader, sectionBody, sectionTitle, sectionNumber,
-  input, select, textarea, label,
+  input, textarea, label,
   btnPrimary, btnGhost, btnSmDark, btnDanger, btnToggleActive, btnToggleInactive,
   infoBox, pageWrapper, pageInner, pageTitle, pageSubtitle
 } from "../../styles/index"
@@ -235,13 +236,16 @@ formData.append("file", blob, `${crNumber}.pdf`)
                 </button>
               </div>
               {!isNewVendor ? (
-                <div>
-                  <label className={label}>Select Vendor <span className="text-amber-500">*</span></label>
-                  <select value={selectedVendor} onChange={e => setSelectedVendor(e.target.value)} className={select}>
-                    <option value="">{loading.vendors ? "Loading vendors…" : "Select a vendor…"}</option>
-                    {vendors.map(v => <option key={v.value} value={v.value}>{v.label}</option>)}
-                  </select>
-                </div>
+  <div>
+    <SearchableSelect
+      label="Select Vendor"
+      required
+      options={vendors}
+      value={selectedVendor}
+      onChange={setSelectedVendor}
+      placeholder={loading.vendors ? "Loading vendors…" : "Type to search vendors…"}
+    />
+  </div>
               ) : (
                 <div>
                   <label className={label}>New Vendor Name <span className="text-amber-500">*</span></label>
