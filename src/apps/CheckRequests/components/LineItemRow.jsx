@@ -4,8 +4,6 @@ const LineItemRow = ({ item, index, onChange, onRemove, dimensionTypes, canRemov
   const update = (field, value) => onChange(index, { ...item, [field]: value })
   const updateDim = (key, value) => onChange(index, { ...item, dimensions: { ...item.dimensions, [key]: value } })
 
-  console.log("dimension types:", dimensionTypes)
-
   return (
     <div style={{
       display: "flex", alignItems: "flex-start", gap: 8,
